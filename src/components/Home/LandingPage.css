@@ -1,0 +1,162 @@
+/* General Layout */
+.landing-page {
+    width: 100%;
+    height: 90vh;
+    background-color: #fff; /* Dark background */
+    padding-top: 1rem;
+  }
+  
+  /* Text Structure */
+  .text-structure {
+    margin-top: 10rem;
+    padding: 0 5rem;
+  }
+  
+  .masker {
+    overflow: hidden;
+  }
+  
+  .text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .highlight-bar {
+    z-index: 1000;
+    height: 13vh;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/001/504/962/non_2x/shopping-cart-icon-free-vector.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 0.25rem;
+    position: relative;
+  }
+  
+  .text-item {
+    font-size: 9vw;
+    line-height: 8vw;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: -1.2rem;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.03em;
+    white-space: nowrap; /* Prevent text from wrapping */
+    max-width: 90%; /* Ensure it doesn't overflow */
+    text-align: center; /* Center text */
+  }
+  
+  /* Footer */
+  .footer {
+    border-top: 1px solid #3f3f46; /* Dark Border */
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 5rem;
+  }
+  
+  .footer-text {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+  
+  .start {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  
+  .start-button {
+    padding: 0.5rem 1.25rem;
+    border: 2px solid #71717a; /* Zinc 500 */
+    font-size: 1rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+  
+  .icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #71717a; /* Zinc 500 */
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+  
+  .rotated-icon {
+    transform: rotate(45deg);
+    font-size: 1.5rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .text-structure {
+      margin-top: 6rem;
+      padding: 0 3rem;
+    }
+  
+    .highlight-bar {
+      height: 10vh;
+    }
+  
+    .text-item {
+      font-size: 8vw;  /* Adjusted size */
+      line-height: 7vw;
+      margin-top: 0;
+    }
+  
+    .footer {
+      padding: 1.25rem 3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .text-structure {
+      margin-top: 5rem;
+      padding: 0 2rem;
+    }
+  
+    .highlight-bar {
+      height: 10vh;
+    }
+  
+    .text-item {
+      font-size: 6.5vw;  /* Adjusted size */
+      line-height: 6vw;
+      margin-top: 0;
+    }
+  
+    .footer {
+      padding: 1.25rem 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .text-structure {
+      margin-top: 4rem;
+      padding: 0 1.5rem;
+    }
+  
+    .highlight-bar {
+      height: 8vh;
+    }
+  
+    .text-item {
+      font-size: 5.5vw;  /* Adjusted size */
+      line-height: 5.5vw;
+      margin-top: 0;
+    }
+  
+    .footer {
+      padding: 1.25rem 1rem;
+    }
+  }
+  

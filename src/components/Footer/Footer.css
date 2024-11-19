@@ -11,8 +11,11 @@
 }
 
 .main-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, auto));
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, auto)); */
+
+  display: flex;
+  justify-content: center;
   gap: 2rem;
   margin-bottom: 3rem;
 }

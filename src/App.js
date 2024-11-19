@@ -1,6 +1,7 @@
 import "./App.css";
 import "@google/model-viewer/dist/model-viewer.min.js";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Home from "./components/Home/Home";
 import ProductList from "./components/ProductList/ProductList";
 import About from "./components/About/About";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
@@ -28,8 +29,9 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Routes>
+          <Route path="/" element={<Home />}/>
           <Route
-            path="/"
+            path="/product"
             element={
               <ProductList
                 addToWishlist={addToWishlist}

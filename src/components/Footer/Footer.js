@@ -5,8 +5,8 @@ import "./Footer.css";
 function Footer() {
   return (
     <div className="contact" id="contact">
-      <div className="main-content">
-        <div class="contact-content">
+      {/* <div className="main-content"> */}
+        {/* <div class="contact-content">
           <Link to="/"> Home </Link>
           <Link
             to="/about"
@@ -29,9 +29,9 @@ function Footer() {
             Contact
           </Link>
           <Link to="/"> Tel: 123-456-7890 </Link>
-        </div>
+        </div> */}
 
-        <div className="contact-content">
+        {/* <div className="contact-content">
           <Link
             to="https://github.com/ShwetKhatri2001/AR-Webstore"
             target="_blank"
@@ -47,8 +47,8 @@ function Footer() {
           <Link to="https://twitter.com/shwetkhatri2001" target="_blank">
             Twitter
           </Link>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
       <div class="action">
         <form onSubmit={(event) => event.preventDefault()}>
@@ -59,7 +59,7 @@ function Footer() {
             required
           ></input>
           <input type="submit" name="submit" value="Submit" required></input>
-        
+
         </form>
       </div>
       <div class="last">

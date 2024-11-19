@@ -60,7 +60,7 @@ const About = () => {
         <>
             <div className="about-banner">
                 <div className="about-banner-front">
-                    <div className="aboutleft"><div className="aboutleftsec fromtop-anim">AR Webstore</div>
+                    <div className="aboutleft"><div className="aboutleftsec fromtop-anim">AR Shopsy</div>
                         <p className="abouleftseccont fade-effect">A web application for immersive augmented reality shopping experiences.</p></div>
 
                     <img src={gun} className="aboutrightsec" />
@@ -114,7 +114,7 @@ const About = () => {
                 </div>
 
             </div>
-            <h1 className="second-head fromtop-anim">Learning Exposure !</h1>
+            {/* <h1 className="second-head fromtop-anim">Learning Exposure !</h1>
             <div className="learning-about-block">
                 <div className="learning-about fade-effect" style={{ "flex": "1.8" }}><span className="fade-effect text-content">
                     <b>XR</b>, or  <b>Extended Reality</b>, is an exciting technology that combines the real world with
@@ -171,7 +171,7 @@ const About = () => {
 <FontAwesomeIcon icon={faArrowUp} />
    </button>
       )}
-            </div>
+            </div> */}
         </>
 
     );

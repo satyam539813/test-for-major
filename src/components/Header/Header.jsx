@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
+// import logo from "./logo1.png"
+import Shery from "sheryjs";
 
 const Header = () => {
+
+  useEffect(() => {
+    // Ensure Shery functions are applied after the component mounts
+    Shery.makeMagnet(".project-title", {
+      ease: "cubic-bezier(0.23, 1, 0.320, 1)",
+      duration: 1,
+    });
+  });  
+
   const navigationLinks = [
     { label: "Home", Path: "/" },
+    { label: "Products", Path: "/product" },
     { label:"WishList" ,Path:"/wishlist"},
     { label: "About", Path: "/about" },
     { label: "Feedback", Path: "/feedback" },
@@ -27,8 +39,8 @@ const Header = () => {
               onClick={() => showMobileSidebar && setShowMobileSidebar(false)}
               className="project-title"
             >
-              AR Webstore
             </Link>
+            AR Shopsy
           </h3>
           <div
             className={`mobile-menu-icon ${!showMobileSidebar ? "active" : ""}`}
