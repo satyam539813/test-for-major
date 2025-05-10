@@ -1,46 +1,64 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
-// import logo from "./logo1.png"
 import Shery from "sheryjs";
 
 const Header = () => {
-
+  const [showMobileSidebar, setShowMobileSidebar] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  
   useEffect(() => {
     // Ensure Shery functions are applied after the component mounts
-    Shery.makeMagnet(".project-title", {
+    Shery.makeMagnet(".brand-title", {
       ease: "cubic-bezier(0.23, 1, 0.320, 1)",
       duration: 1,
     });
-  });  
+    
+    // Add scroll event listener
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);  
 
   const navigationLinks = [
     { label: "Home", Path: "/" },
     { label: "Products", Path: "/product" },
-    { label:"WishList" ,Path:"/wishlist"},
+    { label: "WishList", Path: "/wishlist" },
     { label: "About", Path: "/about" },
-    { label: "Feedback", Path: "/feedback" },
     { label: "Contact", Path: "/contact" },
-    { label: "SignIn", Path: "/sign-in" },
-    { label: "SignUp", Path: "/sign-up" },
+    { label: "Feedback", Path: "/feedback" },
   ];
-  const [showMobileSidebar, setShowMobileSidebar] = useState(true);
+  
+  const authLinks = [
+    { label: "Sign In", Path: "/sign-in" },
+    { label: "Sign Up", Path: "/sign-up" },
+  ];
+  
   const handleItemClick = () => {
     setShowMobileSidebar(true);
   };
+  
   return (
-    <header>
-      {/* Mobile Menu Icon */}
+    <header className={scrolled ? "scrolled" : ""}>
       <nav>
         <div className="navtop">
-          <h3>
+          <h3 className="brand-title">
             <Link
               to="/"
               onClick={() => showMobileSidebar && setShowMobileSidebar(false)}
-              className="project-title"
+              className="brand-title"
             >
+              <span className="ar-text">AR</span> Shopsy
             </Link>
-            AR Shopsy
           </h3>
           <div
             className={`mobile-menu-icon ${!showMobileSidebar ? "active" : ""}`}
@@ -54,21 +72,33 @@ const Header = () => {
                 }
               />
             ))}
-            {/* If the condition is true, only the first, second, and last div elements will be rendered. */}
           </div>
         </div>
-        {/* Desktop Navigation */}
       </nav>
-      <ul className={`desktop-nav ${showMobileSidebar ? "" : "show"}`}>
-        {navigationLinks.map((items, key) => {
-          return (
+      
+      <div className="nav-container">
+        <ul className={`desktop-nav ${showMobileSidebar ? "" : "show"}`}>
+          {navigationLinks.map((item, key) => (
             <li key={key} onClick={handleItemClick}>
-              <Link to={items.Path}>{items.label}</Link>
+              <Link to={item.Path} className="nav-link">
+                {item.label}
+              </Link>
             </li>
-          );
-          /* activeStyle={{ color: "blue", textDecoration: "underline" }} */
-        })}
-      </ul>
+          ))}
+        </ul>
+        
+        <div className="auth-links">
+          {authLinks.map((item, key) => (
+            <Link 
+              key={key} 
+              to={item.Path} 
+              className={`auth-btn ${item.label === "Sign Up" ? "signup-btn" : ""}`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
     </header>
   );
 };

@@ -44,7 +44,6 @@ const SignUp = () => {
     <main className="main-sign_up_container">
     
     <form onSubmit={handleSubmit} className="sign-up-container">
-        <p className="error-paragraph">{error !== '' ? `Error: ${error}` : null}</p>
         <h3>Sign up</h3>
         <div className="inputs">
 

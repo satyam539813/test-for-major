@@ -1,12 +1,36 @@
-/* eslint-disable no-useless-concat */
-
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Feedback.css";
+import { motion } from "framer-motion";
+import Shery from "sheryjs";
 
 const Feedback = () => {
   const formRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formState, setFormState] = useState({
+    username: "",
+    useremail: "",
+    liked: "",
+    improve: "",
+    features: "",
+    comments: ""
+  });
+
+  // Track form completion percentage
+  const [completionPercentage, setCompletionPercentage] = useState(0);
 
   useEffect(() => {
+    // Calculate form completion percentage
+    const totalFields = Object.keys(formState).length;
+    const filledFields = Object.values(formState).filter(value => value.trim() !== "").length;
+    setCompletionPercentage(Math.round((filledFields / totalFields) * 100));
+    
+    // Add animation effects from Home page
+    Shery.makeMagnet(".feedback-title", {
+      ease: "cubic-bezier(0.23, 1, 0.320, 1)",
+      duration: 1,
+    });
+
+    // Load necessary scripts
     const script1 = document.createElement("script");
     script1.src = "https://smtpjs.com/v3/smtp.js";
     script1.async = true;
@@ -21,27 +45,25 @@ const Feedback = () => {
       document.body.removeChild(script1);
       document.body.removeChild(script2);
     };
-  }, []);
+  }, [formState]);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormState({
+      ...formState,
+      [id]: value
+    });
+  };
 
   const sendMail = () => {
-    let likes = document.getElementById("liked").value;
-    let usersname = document.getElementById("username").value;
-    let usersemail = document.getElementById("useremail").value;
-    let improvement = document.getElementById("improve").value;
-    let feature = document.getElementById("features").value;
-    let comment = document.getElementById("comments").value;
-
-    let body = "Name of the User: <br/>" + usersname + "<br/>" + "Email of the User: <br/>" + usersemail + "<br/><br/>" +
-      "What did you like most about AR-Webstore? <br/>" +
-      likes +
-      "<br/><br/> Will our 3D and AR features improve your shopping experience if we integrate it on an online e-commerce store ?<br/>" +
-      improvement +
-      "<br/><br/> What are the other features that excite you to have them on AR-Webstore ?<br/>" +
-      feature +
-      "<br/> <br/>Any other comments?<br/>" +
-      comment;
-
-    console.log(body);
+    setIsSubmitting(true);
+    
+    let body = "Name of the User: <br/>" + formState.username + "<br/>" + 
+      "Email of the User: <br/>" + formState.useremail + "<br/><br/>" +
+      "What did you like most about AR-Webstore? <br/>" + formState.liked +
+      "<br/><br/> Will our 3D and AR features improve your shopping experience if we integrate it on an online e-commerce store ?<br/>" + formState.improve +
+      "<br/><br/> What are the other features that excite you to have them on AR-Webstore ?<br/>" + formState.features +
+      "<br/> <br/>Any other comments?<br/>" + formState.comments;
 
     window.Email.send({
       Host: "smtp.elasticemail.com",
@@ -52,68 +74,175 @@ const Feedback = () => {
       Subject: "AR-Webstore has got a feedback",
       Body: body,
     }).then((message) => {
+        setIsSubmitting(false);
         if (message === "OK") {
           window.swal(
-            "Successfull",
-            "Thanks! We've received your feedback",
+            "Thank You!",
+            "We've received your valuable feedback",
             "success"
           ).then(() => {
-            formRef.current.reset(); 
+            formRef.current.reset();
+            setFormState({
+              username: "",
+              useremail: "",
+              liked: "",
+              improve: "",
+              features: "",
+              comments: ""
+            });
           });
         } else {
           window.swal(
             "Something Wrong",
-            "Your FeedBack is not Received",
+            "Your feedback could not be submitted. Please try again.",
             "error"
           );
         }
       });
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  const formVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { 
+        duration: 0.5,
+        ease: [0.23, 1, 0.32, 1],
+        delay: 0.2
+      }
+    }
+  };
+
   return (
-    <div className="container">
-      <h1>Your Feedback ✍️ Our Evolution 🚀</h1>
-      <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="username">Name:</label><br/>
-        <input type="text" id="username" placeholder="Your Name..." />
-        <br />
+    <motion.div 
+      className="feedback-container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <div className="feedback-header">
+        <div className="text-wrapper">
+          <h1 className="feedback-title magnet-target">Your Feedback</h1>
+          <motion.div 
+            className="title-underline"
+            initial={{ width: 0 }}
+            animate={{ width: "120px" }}
+            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+          />
+        </div>
+        <p className="feedback-subtitle">Help us evolve with your valuable insights</p>
+      </div>
 
-        <label htmlFor="useremail">Email:</label><br/>
-        <input type="text" id="useremail" placeholder="Your Email..." />
-        <br />
+      <motion.div 
+        className="feedback-form-container"
+        variants={formVariants}
+      >
+        <div className="form-progress">
+          <div className="progress-text">Completion: {completionPercentage}%</div>
+          <div className="progress-bar-container">
+            <motion.div 
+              className="progress-bar" 
+              initial={{ width: "0%" }}
+              animate={{ width: `${completionPercentage}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+        </div>
 
-        <label htmlFor="liked">What did you like most about AR-Webstore?</label>
-        <input type="text" id="liked" placeholder="I would Like to say..." />
-        <br />
+        <form id="feed" ref={formRef} onSubmit={(e) => e.preventDefault()} className="feedback-form">
+          <div className="form-section">
+            <div className="form-group">
+              <label htmlFor="username">Your Name</label>
+              <input 
+                type="text" 
+                id="username" 
+                placeholder="Enter your name"
+                value={formState.username}
+                onChange={handleInputChange}
+              />
+            </div>
 
-        <label htmlFor="improve">
-          Will our 3D and AR features improve your shopping experience if we
-          integrate it on an online e-commerce store ?
-        </label>
-        <input type="text" id="improve" placeholder="I would Like to say..." />
-        <br />
+            <div className="form-group">
+              <label htmlFor="useremail">Your Email</label>
+              <input 
+                type="email" 
+                id="useremail" 
+                placeholder="Enter your email"
+                value={formState.useremail}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
 
-        <label htmlFor="features">
-          What are the other features that excite you to have them on
-          AR-Webstore ?
-        </label>
-        <input type="text" id="features" placeholder="I would Like to say..." />
-        <br />
+          <div className="form-group">
+            <label htmlFor="liked">What did you like most about AR-Webstore?</label>
+            <input 
+              type="text" 
+              id="liked" 
+              placeholder="Share what you enjoyed..."
+              value={formState.liked}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        <label htmlFor="comments">Any other comments?</label>
-        <br />
-        <textarea
-          name="message"
-          id="comments"
-          placeholder="I would Like to say..."
-          style={{ height: "200px" }}
-        ></textarea>
-        <br />
-        <button type="button" className="btn" onClick={sendMail}>
-          Send Reply
-        </button>
-      </form>
-    </div>
+          <div className="form-group">
+            <label htmlFor="improve">
+              Will our 3D and AR features improve your shopping experience?
+            </label>
+            <input 
+              type="text" 
+              id="improve" 
+              placeholder="Tell us how it might enhance your experience..."
+              value={formState.improve}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="features">
+              What other features would you like to see on AR-Webstore?
+            </label>
+            <input 
+              type="text" 
+              id="features" 
+              placeholder="Share your feature ideas..."
+              value={formState.features}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="comments">Any other comments or suggestions?</label>
+            <textarea
+              id="comments"
+              placeholder="We'd love to hear your thoughts..."
+              value={formState.comments}
+              onChange={handleInputChange}
+            ></textarea>
+          </div>
+
+          <button 
+            type="button" 
+            className={`submit-button ${isSubmitting ? 'submitting' : ''}`} 
+            onClick={sendMail}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Sending...' : 'Submit Feedback'}
+            <span className="button-arrow">→</span>
+          </button>
+        </form>
+      </motion.div>
+    </motion.div>
   );
 };
 
