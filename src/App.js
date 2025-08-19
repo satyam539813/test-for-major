@@ -12,7 +12,9 @@ import Feedback from "./components/Feedback/Feedback";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/Signin";
 import WishList from "./components/Wishlist/WishList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -24,10 +26,34 @@ const App = () => {
     const updatedWishlist = wishlist.filter((item) => item.id !== id);
     setWishlist(updatedWishlist);
   };
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      setCurrentUser(JSON.parse(user));
+    }
+  }, []);
+
+  const handleSignInSuccess = (user) => {
+    setCurrentUser(user);
+    toast.success(`Welcome, ${user.name || user.email}!`);
+  };
+
+  const handleSignUpSuccess = (user) => {
+    setCurrentUser(user);
+    toast.success(`Account created for ${user.name || user.email}!`);
+  };
+
+  const handleAuthError = (message) => {
+    toast.error(message);
+  };
+
   return (
     <>
       <BrowserRouter>
-        <Header />
+        <Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route
@@ -40,8 +66,8 @@ const App = () => {
               />
             }
           />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn onSignInSuccess={handleSignInSuccess} onAuthError={handleAuthError} />} />
+          <Route path="/sign-up" element={<SignUp onSignUpSuccess={handleSignUpSuccess} onAuthError={handleAuthError} />} />
           <Route
             path="/wishlist"
             element={
@@ -55,6 +81,7 @@ const App = () => {
         </Routes>
         <Footer />
       </BrowserRouter>
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </>
   );
 };

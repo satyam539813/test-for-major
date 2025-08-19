@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./WishList.css";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import PaymentForm from '../PaymentForm/PaymentForm';
 
 const WishList = ({ wishlist, onRemoveItem }) => {
   const [fadeOutId, setFadeOutId] = useState(null);
   const isEmpty = wishlist.length === 0;
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      setCurrentUser(JSON.parse(user));
+    }
+  }, []);
 
   const handleRemoveItem = (id) => {
     setFadeOutId(id);
@@ -19,7 +30,7 @@ const WishList = ({ wishlist, onRemoveItem }) => {
     return (
       <div className="empty-wishlist">
         <div className="alert">
-          You have no items in your wishlist yet!
+          You have no items in your cart yet!
           <p className="alert-subtext">Find something you love and add it here.</p>
         </div>
         <Link to="/product" className="button go-back">
@@ -27,6 +38,29 @@ const WishList = ({ wishlist, onRemoveItem }) => {
         </Link>
       </div>
     );
+  };
+
+  const handleProceedToCheckout = () => {
+    if (!currentUser) {
+      toast.error("Please sign in to proceed with the checkout.");
+      return;
+    }
+
+    if (wishlist.length === 0) {
+      toast.error("Your cart is empty. Add some products before checking out!");
+      return;
+    }
+    setShowPaymentForm(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    wishlist.forEach(item => onRemoveItem(item.id)); // Clear wishlist
+    setShowPaymentForm(false);
+  };
+
+  const handlePaymentCancel = () => {
+    setShowPaymentForm(false);
+    toast.info("Payment cancelled.");
   };
 
   const FilledWishList = () => {
@@ -66,6 +100,9 @@ const WishList = ({ wishlist, onRemoveItem }) => {
           <Link to="/" className="button go-back">
             Continue Shopping
           </Link>
+          <button onClick={handleProceedToCheckout} className="button checkout-btn">
+            Proceed to Checkout
+          </button>
         </div>
       </>
     );
@@ -83,6 +120,12 @@ const WishList = ({ wishlist, onRemoveItem }) => {
           </div>
         </div>
       </div>
+      {showPaymentForm && (
+        <PaymentForm 
+          onPaymentSuccess={handlePaymentSuccess} 
+          onPaymentCancel={handlePaymentCancel} 
+        />
+      )}
     </div>
   );
 };

@@ -289,3 +289,47 @@ nav .navtop h3 {
     width: 100%;
   }
 }
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.user-name {
+  color: var(--text);
+  font-weight: 500;
+  margin-right: 1rem;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long names */
+  max-width: 120px; /* Limit width */
+}
+
+@media screen and (max-width: 768px) {
+  .auth-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-avatar {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .user-name {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+}

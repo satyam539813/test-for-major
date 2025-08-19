@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-import { Link } from "react-router-dom";
-const SignUp = () => {
-    const [ error,setError ] = useState('')
+import { Link, useNavigate } from "react-router-dom";
+
+const SignUp = ({ onSignUpSuccess, onAuthError }) => {
+    const navigate = useNavigate();
+    const [ error,setError ] = useState('');
     const [ userDetails,setuserDetails ] = useState({
         name: '',
         email:'',
@@ -24,20 +26,38 @@ const SignUp = () => {
             return
         }
         if(userDetails.password !== userDetails.confirm_password){
-            setError('Passwords do not match')
-            return
+            setError('Passwords do not match');
+            return;
         }
 
-        console.log(userDetails)
+        // Check if user already exists in local storage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userExists = users.some(user => user.email === userDetails.email);
+
+        if (userExists) {
+            setError('User with this email already exists.');
+            onAuthError('User with this email already exists.');
+            return;
+        }
+
+        // Store new user in local storage
+        const newUser = {
+            name: userDetails.name,
+            email: userDetails.email,
+            password: userDetails.password // In a real app, hash this password!
+        };
+        localStorage.setItem('users', JSON.stringify([...users, newUser]));
+
+        console.log('User signed up:', newUser);
         setuserDetails({
             name: '',
             email:'',
             password:'',
             confirm_password: ''
-        })
-        setError('')
-        
-
+        });
+        setError('');
+        onSignUpSuccess(newUser); // Call success callback
+        navigate('/sign-in'); // Redirect to sign-in page after successful sign-up
     }
 
   return (
@@ -45,6 +65,7 @@ const SignUp = () => {
     
     <form onSubmit={handleSubmit} className="sign-up-container">
         <h3>Sign up</h3>
+        {error && <p className="error-paragraph" style={{color: 'red', textAlign: 'center'}}>{error}</p>}
         <div className="inputs">
 
         </div>

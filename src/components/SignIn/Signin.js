@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./SignIn.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = ({ onSignInSuccess, onAuthError }) => {
+    const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [signInDetails, setSignInDetails] = useState({
@@ -33,25 +34,36 @@ const SignIn = () => {
             return;
         }
 
-        // Simulate API request
         setLoading(true);
-        
+
+        // Retrieve users from local storage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const foundUser = users.find(user => user.email === signInDetails.email && user.password === signInDetails.password);
+
         setTimeout(() => {
-            console.log(signInDetails);
-            setSignInDetails({
-                email: '',
-                password: '',
-            });
+            if (foundUser) {
+                console.log('User signed in:', foundUser);
+                // In a real app, you'd set a session or token here
+                localStorage.setItem('currentUser', JSON.stringify(foundUser)); // Store current logged-in user
+                setSignInDetails({
+                    email: '',
+                    password: '',
+                });
+                setError('');
+                onSignInSuccess(foundUser); // Call success callback
+                navigate('/product'); // Redirect to product page
+            } else {
+                setError('Invalid email or password.');
+                onAuthError('Invalid email or password.');
+            }
             setLoading(false);
-            setError('');
-            // Navigate to dashboard or home page would happen here
         }, 1500);
     };
 
     return (
         <main className="main-sign_in_container">
             <form onSubmit={handleSubmit} className="sign-in-container">
-                {/* {error && <p className="error-paragraph">{error}</p>} */}
+                {error && <p className="error-paragraph" style={{color: 'red', textAlign: 'center'}}>{error}</p>}
                 
                 <div className="sign-in-header">
                     <h3>Welcome back</h3>
