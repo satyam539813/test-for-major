@@ -7,13 +7,11 @@ Welcome to **AR-Shopsy** – an innovative e-commerce platform that brings Augme
 - **Modern UI/UX:** Clean, responsive, and user-friendly interface built with the latest web technologies.
 - **Component-Based Architecture:** Modular React components for scalability and maintainability.
 - **Wishlist & Feedback:** Personalized wishlist and feedback features to enhance user engagement.
-- **Dockerized Deployment:** Ready for production with Docker support for easy deployment.
 
 ## 🛠️ Tech Stack
 - **Frontend:** React.js, Tailwind CSS
 - **AR Support:** Model Viewer, 3D assets
 - **State Management:** React Hooks
-- **Deployment:** Docker
 
 ## 📂 Project Structure
 ```
@@ -53,6 +51,3 @@ Hi! I'm Shivang Verma, a passionate full-stack developer with a keen interest in
 
 ## 🤝 Contributing
 Contributions are welcome! Please open issues or submit pull requests for improvements.
-
-## 📄 License
-This project is licensed under the MIT License.
