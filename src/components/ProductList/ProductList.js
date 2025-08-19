@@ -3,7 +3,8 @@ import productItems from "../../data/ProductItems";
 import ModelViewer from "../ModelViewer/ModelViewer";
 import "./ProductList.css";
 import { motion } from "framer-motion";
-import LazyLoad from "react-lazyload";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import Shery from "sheryjs";
 
 const ProductList = ({ addToWishlist, wishlist, removeFromWishlist }) => {
@@ -64,19 +65,25 @@ const ProductList = ({ addToWishlist, wishlist, removeFromWishlist }) => {
         animate={isLoaded ? "visible" : "hidden"}
       >
         {productItems.map((item, idx) => (
-          <LazyLoad key={idx} height={450} once>
-            <motion.div 
-              className="product-card"
-              variants={itemVariants}
-            >
-              <ModelViewer 
-                item={item} 
-                addToWishlist={addToWishlist} 
-                wishlist={wishlist} 
-                removeFromWishlist={removeFromWishlist} 
-              />
-            </motion.div>
-          </LazyLoad>
+          <motion.div 
+            key={idx} 
+            className="product-card"
+            variants={itemVariants}
+          >
+            <LazyLoadImage
+              src={item.image}
+              alt={item.name}
+              effect="blur"
+              height={450}
+              width="100%"
+            />
+            <ModelViewer 
+              item={item} 
+              addToWishlist={addToWishlist} 
+              wishlist={wishlist} 
+              removeFromWishlist={removeFromWishlist} 
+            />
+          </motion.div>
         ))}
       </motion.section>
     </>

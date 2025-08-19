@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import LazyLoad from "react-lazyload";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 // import "../../Products/ProductList.css";
-import QRCode from "qrcode.react";
 import Help from "./Help";
 const ModelViewer = ({ item, addToWishlist, removeFromWishlist, wishlist }) => {
-  const [selectedVariant, setSelectedVariant] = useState('default');
   const [display, setDisplay] = useState(false);
   const [ARSupported, setARSupported] = useState(false);
   const [annotate, setAnnotate] = useState(false);
@@ -37,7 +36,7 @@ const ModelViewer = ({ item, addToWishlist, removeFromWishlist, wishlist }) => {
 
 
   const handleAnnotateClick = (annotation) => {
-    const { orbit, target, position } = annotation;
+    const { target, position } = annotation;
     model.current.cameraTarget = position;
     model.current.orbit = target
   }
@@ -168,43 +167,39 @@ const ModelViewer = ({ item, addToWishlist, removeFromWishlist, wishlist }) => {
 
       </model-viewer>
         
-      <LazyLoad>
-        {/* Card content below the model-viewer */}
-        <div className="qr-sec">
-          {!ARSupported && (
-            <QRCode
-              id={item.name}
-              value={window.location.href}
-              size={110}
-              bgColor="#ffffff"
-              fgColor="#000000"
-              level="H"
-              includeMargin
-            />
-          )}
+      {/* Card content below the model-viewer */}
+      <div className="qr-sec">
+        {!ARSupported && (
+          <LazyLoadImage
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(window.location.href)}`}
+            alt="QR Code"
+            effect="blur"
+            height={110}
+            width={110}
+          />
+        )}
 
-          <div className="product-details">
-            <div>
-              <div className="pname">{item.name}</div>
-              <div className="rating-sec">
-                <div>Rating</div>
-                <div>
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9733;</span>
-                  <span>&#9733;</span>
-                  <span>&#9733;</span>
-                </div>
+        <div className="product-details">
+          <div>
+            <div className="pname">{item.name}</div>
+            <div className="rating-sec">
+              <div>Rating</div>
+              <div>
+                <span className="star">&#9733;</span>
+                <span className="star">&#9733;</span>
+                <span className="star">&#9733;</span>
+                <span>&#9733;</span>
+                <span>&#9733;</span>
               </div>
-              <div>Rs. 1000</div>
-              {!ARSupported && <h5>Scan the QR code for AR View on mobile</h5>}
             </div>
-            <button className="add-icon" onClick={handleAddToWishlist}>
-              {isInWishlist ? '-' : '+'}
-            </button>
+            <div>Rs. 1000</div>
+            {!ARSupported && <h5>Scan the QR code for AR View on mobile</h5>}
           </div>
+          <button className="add-icon" onClick={handleAddToWishlist}>
+            {isInWishlist ? '-' : '+'}
+          </button>
         </div>
-      </LazyLoad>
+      </div>
     </div>
   );
 };

@@ -14,16 +14,16 @@ function Footer() {
           <h3>AR Shopsy</h3>
           <p>Experience shopping in a whole new dimension with our augmented reality platform.</p>
           <div className="social-icons">
-            <a href="#" className="social-icon">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaTwitter />
             </a>
-            <a href="#" className="social-icon">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaFacebook />
             </a>
-            <a href="#" className="social-icon">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaInstagram />
             </a>
-            <a href="#" className="social-icon">
+            <a href="https://github.com/Shivang-v-erm-a/Major-Project" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaGithub />
             </a>
           </div>

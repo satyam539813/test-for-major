@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const ContributorSection = () => {
-  const [contributors, setContributors] = useState([]);
   const contRef = useRef(null);
-  const owner = 'ShwetKhatri2001';
-  const repoName = 'AR-Webstore';
+  const owner = '';
+  const repoName = '';
 
   useEffect(() => {
     if (contRef.current) {

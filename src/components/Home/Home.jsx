@@ -1,5 +1,4 @@
 // Home.jsx - Fixed version
-import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 import "./LandingPage.css";
 import Shery from "sheryjs";
