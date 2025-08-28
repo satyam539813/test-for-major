@@ -33,11 +33,7 @@ h1 {
     transition: color 0.3s ease-in-out;
     cursor: pointer;
 }
-
-h1:hover {
-    color: var(--primary);
-}
-
+ 
 #contributor {
     margin: 0;
     padding: 50px 0;
@@ -89,9 +85,6 @@ body {
     transition: transform 0.3s ease-in-out , opacity 0.3s ease-in-out;
 }
 
-.contributor-card:hover {
-    box-shadow: 0 0 10px rgba(253, 251, 251, 0.5); /* Adjust the color and size of the glow as needed */
-}
 
 .contributor-card:active {
     transform: scale(1.1);

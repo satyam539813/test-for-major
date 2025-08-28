@@ -1,4 +1,9 @@
-/* Enhanced ProductList.css - Aligned with Home page aesthetic */
+/* Enhanced ProductList.css - Aligned with Home page aesthetic (no hover effects) */
+
+/* Tailwind imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Product Header Section */
 .product-header {
@@ -22,7 +27,6 @@
 }
 
 .text-wrapper {
-  margin-bottom: -100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,16 +64,14 @@
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
   height: 450px;
   display: flex;
   flex-direction: column;
+  object-fit: cover;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-}
+/* Keep card static (no hover animations) */
+
 
 /* Make sure ModelViewer fits nicely in the card */
 .product-card > div {
@@ -78,7 +80,7 @@
   margin-bottom: 80px;
 }
 
-/* Enhanced button style to match Home page */
+/* Buttons */
 .product-grid button {
   background: #6366f1;
   color: white;
@@ -87,25 +89,19 @@
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-  transition: all 0.3s ease;
 }
 
-.product-grid button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
-  background: #4f46e5;
-}
+/* Keep button static */
+ 
 
 /* Responsive Design */
 @media (max-width: 1024px) {
   .product-header {
     padding: 2.5rem 3rem 1rem;
   }
-  
   .product-title {
     font-size: 3.5rem;
   }
-  
   .product-grid {
     padding: 1.5rem 4%;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -117,21 +113,17 @@
   .product-header {
     padding: 2rem 2rem 0.5rem;
   }
-  
   .product-title {
     font-size: 2.8rem;
   }
-  
   .product-subtitle {
     font-size: 1rem;
   }
-  
   .product-grid {
     padding: 1rem 3%;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
-  
   .product-card {
     height: 400px;
   }
@@ -141,17 +133,14 @@
   .product-header {
     padding: 1.5rem 1.5rem 0.5rem;
   }
-  
   .product-title {
     font-size: 2.2rem;
   }
-  
   .product-grid {
     padding: 1rem 1rem;
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
   .product-card {
     height: 380px;
   }
